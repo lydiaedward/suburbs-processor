@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +39,9 @@ public class SuburbsServiceImpl implements SuburbsService {
         try {
             validateAddRequest(addSuburbsRequest);
             addSuburbsRequest.getSuburbDetails().stream().forEach(suburb -> {
-                if(suburbRepo.getDuplicateCount(suburb.getName()) == 0) {
+                if(!StringUtils.hasLength(suburb.getName()) || suburb.getPostCode() == null ) {
+                    log.info("Not saving invalid entry to DB. Name: {} Postcode: {}", suburb.getName(), suburb.getPostCode());
+                } else if(suburbRepo.getDuplicateCount(suburb.getName()) == 0) {
                     suburbRepo.save(suburb);
                     int savedRecordsCount = addSuburbsRequest.getSavedRecordsCount();
                     addSuburbsRequest.setSavedRecordsCount(savedRecordsCount++);
