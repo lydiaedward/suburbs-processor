@@ -8,6 +8,12 @@ These services are deployed via AWS and can be accessed as follows:
 1. Add API - http://suburbsprocessor-env.eba-8bkd6sb5.us-west-1.elasticbeanstalk.com/api/suburbs/add
 2. Search Suburbs API - http://suburbsprocessor-env.eba-8bkd6sb5.us-west-1.elasticbeanstalk.com/api/suburbs/search
 
+### Sample Curl Request
+1. Add
+curl -g --location --request POST 'http://suburbsprocessor-env.eba-8bkd6sb5.us-west-1.elasticbeanstalk.com/api/suburbs/add' --header 'Content-Type: application/json' --data-raw '{"suburbDetails" : [{"name" : "Test Suburb1","postCode" : "5001"},{"name" : "Suburb2 Test","postCode" : "5002" } ] }'
+2. Search 
+curl -g --location --request POST 'http://suburbsprocessor-env.eba-8bkd6sb5.us-west-1.elasticbeanstalk.com/api/suburbs/search' --header 'Content-Type: application/json' --data-raw '{"searchCriteria":{"startPostCode":5001,"endPostCode":5010}}'
+
 ## Local Run Command
 mvn clean install spring-boot:run
 
@@ -112,7 +118,7 @@ http://localhost:8085/api/suburbs/search
 ### API Request:
 {
 "searchCriteria": {
-"endPostCode": "6010",
-"startPostCode": "6004"
+"endPostCode": 6010,
+"startPostCode": 6004
 }
 }
