@@ -3,7 +3,12 @@ This application exposes 2 APIs
 1. /api/suburbs/add - Adds given suburbs to DB
 2. /api/suburbs/search - Searches suburbs from DB based on given postcode range
 
-## Run Command
+## Cloud Deployment Details
+These services are deployed via AWS and can be accessed as follows:
+1. Add API - http://suburbsprocessor-env.eba-8bkd6sb5.us-west-1.elasticbeanstalk.com/api/suburbs/add
+2. Search Suburbs API - http://suburbsprocessor-env.eba-8bkd6sb5.us-west-1.elasticbeanstalk.com/api/suburbs/search
+
+## Local Run Command
 mvn clean install spring-boot:run
 
 ## Sample Add Request

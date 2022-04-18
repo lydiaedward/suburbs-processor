@@ -38,9 +38,15 @@ public class SuburbsServiceImpl implements SuburbsService {
         try {
             validateAddRequest(addSuburbsRequest);
             addSuburbsRequest.getSuburbDetails().stream().forEach(suburb -> {
-                suburbRepo.save(suburb);
+                if(suburbRepo.getDuplicateCount(suburb.getName()) == 0) {
+                    suburbRepo.save(suburb);
+                    int savedRecordsCount = addSuburbsRequest.getSavedRecordsCount();
+                    addSuburbsRequest.setSavedRecordsCount(savedRecordsCount++);
+                } else {
+                    log.info("Suburb {} already exists. Not saving it again!", suburb.getName());
+                }
             });
-            log.info("Successfully saved {} Suburb records to DB", addSuburbsRequest.getSuburbDetails().size());
+            log.info("Successfully saved {} Suburb records to DB", addSuburbsRequest.getSavedRecordsCount());
             serviceResponse.setResponseContext(APICommonUtil.getResponseContext(CommonConstants.SUCCESS_CODE, CommonConstants.SUCCESS_DESC));
         } catch (ValidationException validationException) {
             log.error("ValidationException occurred in addSuburbs() method ", validationException);

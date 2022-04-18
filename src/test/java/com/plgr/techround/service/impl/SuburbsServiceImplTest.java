@@ -55,6 +55,24 @@ public class SuburbsServiceImplTest {
     }
 
     @Test
+    public void testAddSuburbDuplicates() {
+        setupAddRequest();
+        // Assert that record is not saved if duplicate is found
+        new Expectations(){
+            {
+                suburbRepo.getDuplicateCount((String) any);
+                result = 1;
+
+                suburbRepo.save((Suburb) any);
+                times = 0;
+            }
+        };
+        ServiceResponse serviceResponse = suburbsService.addSuburbs(addSuburbsRequest);
+        assertEquals(CommonConstants.SUCCESS_CODE, serviceResponse.getResponseContext().getResponseCode());
+        assertEquals(CommonConstants.SUCCESS_DESC, serviceResponse.getResponseContext().getResponseDescription());
+    }
+
+    @Test
     public void testSearchSuburbs() {
         setupSearchRequest();
         new Expectations() {

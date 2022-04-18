@@ -17,4 +17,7 @@ public interface SuburbRepo extends JpaRepository<Suburb, Integer> {
     @Query(value="select name from Suburb where postCode between :startcode and :endcode")
     List<String> findByPostCodeRange(@Param("startcode") Integer startcode, @Param("endcode") Integer endcode);
 
+    @Query(value="select count(*) from Suburb where name = :name")
+    int getDuplicateCount(@Param("name") String name);
+
 }
